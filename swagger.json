@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Task Manager API",
-    "description": "An API for Task Manager",
+    "title": "WDS Training API",
+    "description": "An API for WDS Training Test",
     "version": "0.0.1"
   },
   "servers": [
@@ -11,6 +11,15 @@
       "description": "Localhost server"
     }
   ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
   "paths": {
     "/api/v1/auth/login": {
       "post": {
@@ -23,10 +32,12 @@
                 "type": "object",
                 "properties": {
                   "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "example@gmail.com"
                   },
                   "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "12345678"
                   }
                 }
               }
@@ -95,11 +106,17 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Nguyen Van A"
+                  },
                   "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "example@gmail.com"
                   },
                   "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "12345678"
                   }
                 }
               }
@@ -154,9 +171,77 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "object"
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "example": "This is the title"
+                      },
+                      "imageUrl": {
+                        "type": "string",
+                        "example": "http://example.com/example.img"
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "This is a very awesome product"
+                      },
+                      "price": {
+                        "type": "number",
+                        "example": "9.99"
+                      }
+                    }
                   }
                 }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["products"],
+        "summary": "Create product",
+        "requestBody": {
+          "description": "Product info",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "This is the title"
+                  },
+                  "imageUrl": {
+                    "type": "string",
+                    "example": "http://example.com/example.img"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "This is a very awesome product"
+                  },
+                  "price": {
+                    "type": "number",
+                    "example": "9.99"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create product successful"
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "example": { "message": "UNAUTHORIZED" }
               }
             }
           }
@@ -183,7 +268,25 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "example": "This is the title"
+                    },
+                    "imageUrl": {
+                      "type": "string",
+                      "example": "http://example.com/example.img"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "This is a very awesome product"
+                    },
+                    "price": {
+                      "type": "number",
+                      "example": "9.99"
+                    }
+                  }
                 }
               }
             }
@@ -192,39 +295,17 @@
             "description": "Product not found"
           }
         }
-      },
-      "post": {
-        "tags": ["products"],
-        "summary": "Create product",
-        "requestBody": {
-          "description": "Product info",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Create product successful"
-          },
-          "401": {
-            "description": "UNAUTHORIZED",
-            "content": {
-              "application/json": {
-                "example": { "message": "UNAUTHORIZED" }
-              }
-            }
-          }
-        }
       }
     },
     "/api/v1/cart": {
       "get": {
         "tags": ["cart"],
         "summary": "Get user cart",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get successful",
@@ -233,7 +314,34 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "object"
+                    "type": "object",
+                    "properties": {
+                      "product": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string",
+                            "example": "This is the title"
+                          },
+                          "imageUrl": {
+                            "type": "string",
+                            "example": "http://example.com/example.img"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "This is a very awesome product"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": "9.99"
+                          }
+                        }
+                      },
+                      "quantity": {
+                        "type": "number",
+                        "example": "3"
+                      }
+                    }
                   }
                 }
               }
@@ -247,18 +355,45 @@
       "post": {
         "tags": ["cart"],
         "summary": "Add to cart",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "description": "Send product info and quantity",
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "product": {
-                    "type": "object"
-                  },
-                  "quantity": {
-                    "type": "integer"
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "example": "This is the title"
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "example": "http://example.com/example.img"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "This is a very awesome product"
+                        },
+                        "price": {
+                          "type": "number",
+                          "example": "9.99"
+                        }
+                      }
+                    },
+                    "quantity": {
+                      "type": "number",
+                      "example": "3"
+                    }
                   }
                 }
               }
@@ -274,6 +409,11 @@
       "put": {
         "tags": ["cart"],
         "summary": "Edit product cart",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "description": "Send product info and quantity",
           "content": {
@@ -281,11 +421,38 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "product": {
-                    "type": "object"
-                  },
-                  "quantity": {
-                    "type": "integer"
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "product": {
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "type": "string",
+                              "example": "This is the title"
+                            },
+                            "imageUrl": {
+                              "type": "string",
+                              "example": "http://example.com/example.img"
+                            },
+                            "description": {
+                              "type": "string",
+                              "example": "This is a very awesome product"
+                            },
+                            "price": {
+                              "type": "number",
+                              "example": "9.99"
+                            }
+                          }
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "example": "3"
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -297,36 +464,17 @@
             "description": "Edit to cart successful"
           }
         }
-      },
-      "delete": {
-        "tags": ["cart"],
-        "summary": "Delete product in cart",
-        "requestBody": {
-          "description": "Send product info",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "product": {
-                    "type": "object"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Delete product successful"
-          }
-        }
       }
     },
     "/api/v1/order": {
       "get": {
         "tags": ["orders"],
         "summary": "Get orders list",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get successful",
@@ -357,12 +505,50 @@
       "post": {
         "tags": ["orders"],
         "summary": "Add cart to orders lists",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "201": {
             "description": "Add to cart successful"
           },
           "401": {
             "description": "User have not logged in"
+          }
+        }
+      }
+    },
+    "/api/v1/image-upload": {
+      "post": {
+        "tags": ["image"],
+        "summary": "Upload image",
+        "requestBody": {
+          "content": {
+            "image/png": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "image/jpg": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "image/jpeg": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Upload successful"
           }
         }
       }
