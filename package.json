@@ -1,0 +1,27 @@
+{
+  "name": "wds-be",
+  "version": "1.0.0",
+  "description": "wds-be training test",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dinhlockt02/WDS-BE.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dinhlockt02/WDS-BE/issues"
+  },
+  "homepage": "https://github.com/dinhlockt02/WDS-BE#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "swagger-ui-express": "^4.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
