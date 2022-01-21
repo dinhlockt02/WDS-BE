@@ -1,4 +1,5 @@
 const validator = require('validator');
+const mongoose = require('mongoose');
 const AppError = require('../../common/errors/AppError');
 
 module.exports = {
@@ -24,6 +25,11 @@ module.exports = {
     }
     if (validator.isEmpty(name)) {
       throw new AppError('400', 'Name must not empty');
+    }
+  },
+  isObjectId: id => {
+    if (!mongoose.isValidObjectId(id)) {
+      throw new AppError('404', 'Resource not found');
     }
   },
 };

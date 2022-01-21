@@ -159,10 +159,10 @@
         }
       }
     },
-    "/api/v1/products": {
+    "/api/v1/books": {
       "get": {
-        "tags": ["products"],
-        "summary": "Get all products",
+        "tags": ["books"],
+        "summary": "Get all books",
         "responses": {
           "200": {
             "description": "Get successful",
@@ -181,9 +181,13 @@
                         "type": "string",
                         "example": "http://example.com/example.img"
                       },
+                      "author": {
+                        "type": "string",
+                        "example": "Nguyen Van An"
+                      },
                       "description": {
                         "type": "string",
-                        "example": "This is a very awesome product"
+                        "example": "This is a very awesome books"
                       },
                       "price": {
                         "type": "number",
@@ -196,61 +200,11 @@
             }
           }
         }
-      },
-      "post": {
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "tags": ["products"],
-        "summary": "Create product",
-        "requestBody": {
-          "description": "Product info",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "example": "This is the title"
-                  },
-                  "imageUrl": {
-                    "type": "string",
-                    "example": "http://example.com/example.img"
-                  },
-                  "description": {
-                    "type": "string",
-                    "example": "This is a very awesome product"
-                  },
-                  "price": {
-                    "type": "number",
-                    "example": "9.99"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Create product successful"
-          },
-          "401": {
-            "description": "UNAUTHORIZED",
-            "content": {
-              "application/json": {
-                "example": { "message": "UNAUTHORIZED" }
-              }
-            }
-          }
-        }
       }
     },
-    "/api/v1/products/{id}": {
+    "/api/v1/books/{id}": {
       "get": {
-        "tags": ["products"],
+        "tags": ["books"],
         "summary": "Get one product",
         "parameters": [
           {
@@ -278,9 +232,13 @@
                       "type": "string",
                       "example": "http://example.com/example.img"
                     },
+                    "author": {
+                      "type": "string",
+                      "example": "Nguyen Van An"
+                    },
                     "description": {
                       "type": "string",
-                      "example": "This is a very awesome product"
+                      "example": "This is a very awesome books"
                     },
                     "price": {
                       "type": "number",
