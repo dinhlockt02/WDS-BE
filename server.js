@@ -1,10 +1,13 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const swaggerDoc = require('./swagger.json');
 const api = require('./src/api');
 
 const app = express();
+
+const MONGOURI = 'mongodb+srv://loctran:mpVDhsrReqF6Y2m@cluster0.ze9lh.mongodb.net/bookStore';
 
 app.use(cors());
 app.use(express.json());
@@ -29,6 +32,11 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log('Listen on port 3000');
-});
+mongoose
+  .connect(MONGOURI)
+  .then(() => {
+    app.listen(3000);
+  })
+  .catch(err => {
+    console.log(err);
+  });
