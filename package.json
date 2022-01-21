@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "wds-be training test",
   "main": "server.js",
+  "prettier": "prettier-airbnb-config",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "json-server": "json-server --watch db.json"
   },
   "repository": {
     "type": "git",
@@ -18,10 +20,20 @@
   },
   "homepage": "https://github.com/dinhlockt02/WDS-BE#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "express": "^4.17.2",
+    "json-server": "^0.17.0",
+    "jsonwebtoken": "^8.5.1",
     "swagger-ui-express": "^4.3.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "eslint": "^8.7.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "nodemon": "^2.0.15",
+    "prettier": "^1.19.1",
+    "prettier-airbnb-config": "^1.0.0"
   }
 }
