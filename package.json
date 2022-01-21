@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
-    "json-server": "json-server --watch db.json"
+    "json-server": "json-server --port 5000 --watch db.json"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,9 @@
     "express": "^4.17.2",
     "json-server": "^0.17.0",
     "jsonwebtoken": "^8.5.1",
-    "swagger-ui-express": "^4.3.0"
+    "mongoose": "^6.1.7",
+    "swagger-ui-express": "^4.3.0",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "eslint": "^8.7.0",
