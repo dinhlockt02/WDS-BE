@@ -1,7 +1,6 @@
-const authService = require("./auth.service");
+const authService = require('./auth.service');
 
 module.exports = {
-  
   login: async (req, res) => {
     let DTO = await authService.login(req.body);
     
@@ -17,9 +16,16 @@ module.exports = {
       token: DTO.token
     });
   },
-  signup: async (req, res) => {
-    res.status(201).json({
-      message: 'Signup successful',
-    });
+  signup: async (req, res, next) => {
+    try {
+      const {name, email, password} = req.body;
+      authService.isSignupDataValid({name, email, password});
+      await authService.createUser({name, email, password});
+      res.status(201).json({
+        message: 'Create user successful',
+      });
+    } catch (err) {
+      next(err);
+    }
   },
 };
