@@ -17,4 +17,9 @@ module.exports = {
     }
     return book;
   },
+  createBook: async bookData => {
+    const book = new Book(bookData);
+    const bookDoc = await book.save();
+    return bookDoc;
+  },
 };
