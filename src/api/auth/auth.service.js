@@ -1,71 +1,62 @@
 const jwt = require("jsonwebtoken");
-const db = require("../../../db.json");
+const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const db = require("../../../db.json");
 const customValidator = require('../validations');
 const User = require('../models/user');
 const AppError = require('../../common/errors/AppError');
+const { check } = require("prettier");
+const { append } = require("express/lib/response");
+
+
 
 
 
 
 module.exports = {
     
+
     login: async (body) => {
-        const {email, password: plainPassword} = body;
-        const checkUser = db.users.filter(user => user.email === email );
+        const {email, password} = body;
+        
+        
+        const checkUser = await User.findOne({email});
 
-
-        // ktra trong db nếu có 1 email bằng vs email login 
-        if(checkUser.length === 1){
-            const compare = await bcrypt.compare(plainPassword, checkUser[0].password);
-            // compare {result, err}
+        if(checkUser){
+            const compare = await bcrypt.compare(password, checkUser.password);
             if(compare.err){
-                return {
-                    error: true,
-                    msg: err
-                };
+                throw new AppError(500,err);
             }
-            const accessToken = jwt.sign({email: checkUser[0].email}, "secret");
+            
+            const accessToken = jwt.sign({userID: checkUser.email}, "secret");
             const refeshToken = jwt.sign(
                 {
-                    email: checkUser[0].email, 
+                    userID: checkUser.email,
                     accessToken: accessToken
-
                 }, "secret"
             );
 
             if(compare){
                 return {
-                    error: false,
-                    msg: "Dang nhap thanh cong.",
+                    msg: "Login success.",
                     token: {
                         accessToken,
                         refeshToken
                     }
                 };
             }
-
-            
-                return{
-                    error: true,
-                    msg: "Email hoac Password bi sai."
-                };
-            
-        }
-
-        if(checkUser.length >1){
-            return{
-                error: true,
-                msg: "Email bi trung."
-            };
+            throw new AppError(401,"Email or Password is incorrect.");
         }
         
-            return{
-                error: true,
-                msg: "Tai khoang khong ton tai."
-            };
+            throw new AppError(401,"Account doesn't exist.");
         
-    },
+    },   
+
+
+
+
+
+
   isSignupDataValid: ({name, email, password}) => {
     customValidator.isName(name);
     customValidator.isEmail(email);
