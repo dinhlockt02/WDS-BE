@@ -1,12 +1,20 @@
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const {CloudinaryStorage} = require('multer-storage-cloudinary');
 const multer = require('multer');
 
-const localStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '..', '..', '..', 'images'));
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now().toString() + file.originalname);
+cloudinary.config({
+  cloud_name: 'dmauomliu',
+  api_key: '746423764133236',
+  api_secret: 'SYfvaHyi-l-c2XpiVV-U2QnuKrQ',
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'bookStore',
+    allowedFormats: ['png, jpg', 'jpeg'],
+    public_id: (req, file) => `${new Date().toISOString()}_${file.originalname.split('.')[0]}`,
   },
 });
 
@@ -21,4 +29,4 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
-module.exports = multer({storage: localStorage, fileFilter});
+module.exports = multer({storage, fileFilter});

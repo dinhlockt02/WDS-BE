@@ -1,6 +1,9 @@
 module.exports = {
   imageUpload: (req, res, next) => {
     console.log(req.file);
-    res.json(200);
+    res.status(201).json({
+      message: 'Upload successful',
+      url: req.file.path,
+    });
   },
 };
