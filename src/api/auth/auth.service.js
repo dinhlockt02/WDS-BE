@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const customValidator = require('../validations');
 const User = require('../models/user');
 const AppError = require('../../common/errors/AppError');
+const {sendResetLink} = require('../../common/Emails/sendEmail');
+const {v4: uuidv4} = require('uuid');
 
 module.exports = {
   login: async body => {
@@ -58,4 +60,23 @@ module.exports = {
     const userDoc = await user.save();
     return userDoc;
   },
+  
+  forgetPassword: async ({ email, userId }) => {
+    const user = await User.findOne({email: req.body.email});
+    if(!user){
+      return next(new AppError('User with that email doesnt exist'))
+    }
+    try {
+      let info = await sendResetLink(email, userId, uuidv4());
+  
+      return {
+        statusCode: 200,
+        messageId: info.messageId,
+        msg: 'Send success',
+      };
+    } catch (err) {
+      throw new AppError(500, err.message);
+    }
+  },
 };
+

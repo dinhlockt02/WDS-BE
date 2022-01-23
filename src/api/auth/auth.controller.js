@@ -33,4 +33,12 @@ module.exports = {
       next(err);
     }
   },
+  forgetPassword: async (req, res, next) => {
+		try {
+			const DTO = await authService.forgetPassword(req.body);
+			res.status(200).json(DTO);
+		} catch (err) {
+			next(err);
+		}
+	},
 };
