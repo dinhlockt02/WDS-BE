@@ -7,6 +7,10 @@
   },
   "servers": [
     {
+      "url": "http://167.71.211.204/",
+      "description": "Main server"
+    },
+    {
       "url": "http://localhost:3000/",
       "description": "Localhost server"
     }
@@ -451,7 +455,7 @@
     "/api/v1/image-upload": {
       "post": {
         "tags": ["image"],
-        "summary": "Upload image",
+        "summary": "Upload image (admin only)",
         "security": [
           {
             "bearerAuth": []
