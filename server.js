@@ -28,7 +28,6 @@ app.use((err, req, res, next) => {
   if (!statusCode) {
     statusCode = 500;
   }
-  console.log(err);
   res.status(statusCode).json({
     message: err.message,
   });
