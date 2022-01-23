@@ -1,4 +1,4 @@
-const Order = require('../models/order');
+const User = require('../models/user');
 const Book = require('../models/book');
 const AppError = require('../../common/errors/AppError');
 
@@ -15,15 +15,14 @@ const checkAllBooksIdExists = async ids => {
 };
 
 module.exports = {
-  createOrder: async ({userId, books}) => {
-    const orderData = {books, userId};
-    await checkAllBooksIdExists(books.map(bookItem => bookItem.book));
-    const order = new Order(orderData);
-    const orderDoc = await order.save();
-    return orderDoc;
+  getCart: async userId => {
+    const userWithPopulatedCart = await User.findById(userId).populate('cart.book');
+    return userWithPopulatedCart.cart;
   },
-  getOrders: async userId => {
-    const ordersDoc = await Order.find({userId}).populate('books.book');
-    return ordersDoc;
+  putCart: async ({userId, cart}) => {
+    const user = await User.findById(userId);
+    await checkAllBooksIdExists(cart.map(bookItem => bookItem.book));
+    user.cart = cart;
+    return user.save();
   },
 };

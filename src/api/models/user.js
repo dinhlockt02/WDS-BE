@@ -15,6 +15,17 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  cart: [
+    {
+      book: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Book',
+      },
+      quantity: {
+        type: Number,
+      },
+    },
+  ],
   role: {
     type: String,
     required: true,
