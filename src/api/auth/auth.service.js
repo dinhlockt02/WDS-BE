@@ -16,18 +16,21 @@ module.exports = {
         throw new AppError(500, err);
       }
 
-      const accessToken = jwt.sign({userID: checkUser._id}, 'secret');
+      const accessToken = jwt.sign({userID: checkUser._id}, 'secret', {expiresIn: '2h'});
       const refeshToken = jwt.sign(
         {
           userID: checkUser._id,
-          accessToken: accessToken,
+          accessToken,
         },
-        'secret'
+        'secret',
+        {expiresIn: '4h'}
       );
 
       if (compare) {
         return {
           msg: 'Login success.',
+          name: checkUser.name,
+          role: checkUser.role,
           token: {
             accessToken,
             refeshToken,
@@ -48,7 +51,7 @@ module.exports = {
   createUser: async ({name, email, password}) => {
     const existUser = await User.findOne({email});
     if (existUser) {
-      throw new AppError(201, 'User exists');
+      throw new AppError(409, 'User exists');
     }
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = new User({name, email, password: hashedPassword, role: 'user'});

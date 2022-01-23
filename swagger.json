@@ -129,36 +129,13 @@
         },
         "responses": {
           "201": {
-            "description": "Signup successful",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "default": "Signup successful"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Signup successful"
           },
           "400": {
-            "description": "Not a valid email",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "default": "Not a valid email"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Not a valid email"
+          },
+          "409": {
+            "description": "User exists"
           }
         }
       }

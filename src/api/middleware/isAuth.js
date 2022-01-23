@@ -4,7 +4,9 @@ const AppError = require('../../common/errors/AppError');
 
 const isLoggedIn = async (req, res, next) => {
   try {
-    const token = req.header('Authorization').split(' ')[1];
+    const authorizationHeader = req.header('Authorization');
+    if (!authorizationHeader) throw new AppError(401, 'UNAUTHORIZED');
+    const token = authorizationHeader.split(' ')[1];
     if (!token) {
       throw new AppError(401, 'UNAUTHORIZED');
     }
