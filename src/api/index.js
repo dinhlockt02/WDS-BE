@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.use('/auth', auth);
 router.use('/books', books);
-router.use('/order', isAuth, order);
+router.use('/order', isAuth.isLoggedIn, order);
 router.use('/image-upload', imageUpload);
 
 module.exports = router;
