@@ -54,7 +54,7 @@ module.exports = {
       throw new AppError(409, 'User exists');
     }
     const hashedPassword = await bcrypt.hash(password, 12);
-    const user = new User({name, email, password: hashedPassword, role: 'user'});
+    const user = new User({name, email, password: hashedPassword, role: 'user', cart: []});
     const userDoc = await user.save();
     return userDoc;
   },

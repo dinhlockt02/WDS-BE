@@ -349,6 +349,134 @@
         }
       }
     },
+    "/api/v1/cart": {
+      "get": {
+        "tags": ["cart"],
+        "summary": "Get cart's items",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "default": "Get cart successful"
+                    },
+                    "cart": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "book": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "61eab6ebaa5731d9327fa0ca"
+                              },
+                              "isbn": {
+                                "type": "string",
+                                "example": "9781491943533"
+                              },
+                              "title": {
+                                "type": "string",
+                                "example": "This is the title"
+                              },
+                              "author": {
+                                "type": "string",
+                                "example": "T D L"
+                              },
+                              "published": {
+                                "type": "string",
+                                "example": "2020"
+                              },
+                              "publisher": {
+                                "type": "string",
+                                "example": "NXB DHQG HCM"
+                              },
+                              "page": {
+                                "type": "number",
+                                "example": 345
+                              },
+                              "imageUrl": {
+                                "type": "string",
+                                "example": "http://example.com/example.jpg"
+                              },
+                              "description": {
+                                "type": "string",
+                                "example": "This is a very awesome books"
+                              },
+                              "price": {
+                                "type": "number",
+                                "example": "9.99"
+                              }
+                            }
+                          },
+                          "quantity": {
+                            "type": "number",
+                            "example": 2
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["cart"],
+        "summary": "Update cart",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cart": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "book": {
+                          "type": "string"
+                        },
+                        "quantity": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Add to cart successful"
+          },
+          "401": {
+            "description": "User have not logged in"
+          }
+        }
+      }
+    },
     "/api/v1/order": {
       "get": {
         "tags": ["orders"],
@@ -364,17 +492,65 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "products": {
-                          "type": "object"
-                        },
-                        "quantity": {
-                          "type": "integer"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "default": "Get orders successful"
+                    },
+                    "books": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "book": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "61eab6ebaa5731d9327fa0ca"
+                              },
+                              "isbn": {
+                                "type": "string",
+                                "example": "9781491943533"
+                              },
+                              "title": {
+                                "type": "string",
+                                "example": "This is the title"
+                              },
+                              "author": {
+                                "type": "string",
+                                "example": "T D L"
+                              },
+                              "published": {
+                                "type": "string",
+                                "example": "2020"
+                              },
+                              "publisher": {
+                                "type": "string",
+                                "example": "NXB DHQG HCM"
+                              },
+                              "page": {
+                                "type": "number",
+                                "example": 345
+                              },
+                              "imageUrl": {
+                                "type": "string",
+                                "example": "http://example.com/example.jpg"
+                              },
+                              "description": {
+                                "type": "string",
+                                "example": "This is a very awesome books"
+                              },
+                              "price": {
+                                "type": "number",
+                                "example": "9.99"
+                              }
+                            }
+                          },
+                          "quantity": {
+                            "type": "number",
+                            "example": 2
+                          }
                         }
                       }
                     }
@@ -405,7 +581,7 @@
                     "items": {
                       "type": "object",
                       "properties": {
-                        "bookId": {
+                        "book": {
                           "type": "string"
                         },
                         "quantity": {

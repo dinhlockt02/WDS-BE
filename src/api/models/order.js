@@ -5,7 +5,7 @@ const {Schema} = mongoose;
 const orderSchema = new Schema({
   books: [
     {
-      bookId: {
+      book: {
         type: mongoose.Types.ObjectId,
         ref: 'Book',
       },
