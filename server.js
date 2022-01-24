@@ -17,6 +17,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.use('/api/v1', api);
 
+app.get('/', (req, res) => {
+  res.redirect('/api-docs');
+});
+
 app.use((req, res) => {
   res.status(404).json({
     message: 'Not found',

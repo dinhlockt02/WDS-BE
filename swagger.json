@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://167.71.211.204/",
+      "url": "http://167.71.211.204:3000/",
       "description": "Main server"
     },
     {
@@ -136,6 +136,62 @@
           },
           "409": {
             "description": "User exists"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/forget-password": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Send email to get reset password token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Send email successful"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/reset-password": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Send token and password to reset password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "example": "38c654c1-ed14-4d12-9061-8010c7f99d1b"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Send email successful"
           }
         }
       }
