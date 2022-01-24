@@ -7,6 +7,14 @@
       "password": "",
       "isAdmin": true
     }
+  ],
+
+  "resetToken":[
+      {
+        "userID": 1,
+        "resetToken": ""
+      }
+
   ]
   "resetToken":[
     
