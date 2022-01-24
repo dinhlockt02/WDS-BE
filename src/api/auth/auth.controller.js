@@ -40,7 +40,6 @@ module.exports = {
     } catch(err){
       next(err);
     }
-
   },
   resetPassword: async (req, res, next) => {
     try {

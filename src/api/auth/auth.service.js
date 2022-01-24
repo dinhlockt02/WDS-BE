@@ -7,6 +7,8 @@ const AppError = require('../../common/errors/AppError');
 const db = require('../../../db.json');  
 const { check } = require('prettier');
 const uuidv4 = require('uuid');
+const {sendResetLink} = require('../../common/Emails/sendEmail');
+const {v4: uuidv4} = require('uuid');
 
 module.exports = {
     login: async body => {
@@ -87,7 +89,23 @@ module.exports = {
             
         }
         throw new AppError(500, error.msg);
-
-
     },
+  forgetPassword: async ({ email, userId }) => {
+    const user = await User.findOne({email: req.body.email});
+    if(!user){
+      return next(new AppError('User with that email doesnt exist'))
+    }
+    try {
+      let info = await sendResetLink(email, userId, uuidv4());
+  
+      return {
+        statusCode: 200,
+        messageId: info.messageId,
+        msg: 'Send success',
+      };
+    } catch (err) {
+      throw new AppError(500, err.message);
+    }
+  },
 };
+
