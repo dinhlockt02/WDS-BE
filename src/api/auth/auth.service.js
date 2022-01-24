@@ -43,7 +43,7 @@ module.exports = {
       throw new AppError(401, 'Email or Password is incorrect.');
     }
 
-    throw new AppError(401, "Account doesn't exist.");
+    throw new AppError(404, "Account doesn't exist.");
   },
 
   isSignupDataValid: ({name, email, password}) => {
@@ -64,21 +64,21 @@ module.exports = {
 
   resetPassword: async ({token, password}) => {
     const checkToken = await ResetToken.findOne({token});
-
-    if (checkToken) {
-      let user = await User.findById(checkToken.userId);
-      if (user) {
-        const hashPassword = await bcrypt.hash(password, 12);
-        user.password = hashPassword;
-        return user.save();
-      }
+    if (!checkToken) {
+      throw new AppError(404, 'NOT FOUND');
     }
-    throw new AppError(500, error.msg);
+    const user = await User.findById(checkToken.userId);
+    if (!user) {
+      throw new AppError(404, 'NOT FOUND');
+    }
+    const hashPassword = await bcrypt.hash(password, 12);
+    user.password = hashPassword;
+    return user.save();
   },
   forgetPassword: async email => {
     const user = await User.findOne({email});
     if (!user) {
-      throw new AppError('User with that email doesnt exist');
+      throw new AppError(404, 'User with that email doesnt exist');
     }
     let info = await sendResetLink(email, user._id, uuidv4());
 

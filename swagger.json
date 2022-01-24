@@ -58,7 +58,26 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "default": "Login successful"
+                      "default": "Login success."
+                    },
+                    "token": {
+                      "type": "object",
+                      "properties": {
+                        "accessToken": {
+                          "type": "string"
+                        },
+                        "refreshToken": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Nguyen Van A"
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "admin"
                     }
                   }
                 }
@@ -66,36 +85,10 @@
             }
           },
           "401": {
-            "description": "Login failed because of wrong email or password",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "default": "Wrong email or password"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Login failed because of wrong email or password"
           },
-          "400": {
-            "description": "Not a valid email",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "default": "Not a valid email"
-                    }
-                  }
-                }
-              }
-            }
+          "404": {
+            "description": "User not found"
           }
         }
       }
@@ -132,7 +125,7 @@
             "description": "Signup successful"
           },
           "400": {
-            "description": "Not a valid email"
+            "description": "Email, password or name is not valid"
           },
           "409": {
             "description": "User exists"
@@ -162,6 +155,9 @@
         "responses": {
           "200": {
             "description": "Send email successful"
+          },
+          "404": {
+            "description": "Email not found"
           }
         }
       }
@@ -191,7 +187,10 @@
         },
         "responses": {
           "200": {
-            "description": "Send email successful"
+            "description": "Reset password successful"
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       }
@@ -325,9 +324,6 @@
           },
           "401": {
             "description": "Unauthorize"
-          },
-          "500": {
-            "description": "Internal server error"
           }
         }
       }
@@ -486,6 +482,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "UNAUTHORIZED"
           }
         }
       },
@@ -524,11 +523,11 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Add to cart successful"
+          "200": {
+            "description": "Update to cart successful"
           },
           "401": {
-            "description": "User have not logged in"
+            "description": "UNAUTHORIZE"
           }
         }
       }
@@ -614,6 +613,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "UNAUTHORIZED"
           }
         }
       },
@@ -656,7 +658,7 @@
             "description": "Add to cart successful"
           },
           "401": {
-            "description": "User have not logged in"
+            "description": "UNAUTHORIZED"
           }
         }
       }
@@ -688,6 +690,9 @@
         "responses": {
           "201": {
             "description": "Upload successful"
+          },
+          "401": {
+            "description": "UNAUTHORIZED"
           }
         }
       }
