@@ -7,13 +7,14 @@ const api = require('./src/api');
 
 const app = express();
 
-const MONGOURI = 'mongodb+srv://loctran:mpVDhsrReqF6Y2m@cluster0.ze9lh.mongodb.net/bookStore';
+const MONGOURI = process.env.MONGOURI;
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static('images'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+
 
 app.use('/api/v1', api);
 
@@ -40,7 +41,7 @@ app.use((err, req, res, next) => {
 mongoose
   .connect(MONGOURI)
   .then(() => {
-    app.listen(3000);
+    app.listen(process.env.PORT);
   })
   .catch(err => {
     console.log(err);

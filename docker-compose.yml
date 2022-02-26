@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  db:
+    container_name: mongodb
+    image: mongo
+    networks:
+      - net
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data/db
+  server:
+    container_name: server
+    image: server
+    build: 
+      context: .
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    networks:
+      - net
+    env_file:
+      - .env
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - db
+networks:
+  net:
+volumes:
+  data:
